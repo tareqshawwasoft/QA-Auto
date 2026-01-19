@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "GoRest API Test Collection",
-    "description": "Automated API tests for GoRest.co.in endpoints",
+    "name": "JSONPlaceholder API Test Collection",
+    "description": "Automated API tests for JSONPlaceholder - reliable public API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -38,7 +38,7 @@
                   "        pm.expect(jsonData[0]).to.have.property('id');",
                   "        pm.expect(jsonData[0]).to.have.property('name');",
                   "        pm.expect(jsonData[0]).to.have.property('email');",
-                  "        pm.expect(jsonData[0]).to.have.property('status');",
+                  "        pm.expect(jsonData[0]).to.have.property('username');",
                   "    }",
                   "});"
                 ],
@@ -55,12 +55,12 @@
               }
             ],
             "url": {
-              "raw": "https://gorest.co.in/public/v2/users",
+              "raw": "https://jsonplaceholder.typicode.com/users",
               "protocol": "https",
-              "host": ["gorest", "co", "in"],
-              "path": ["public", "v2", "users"]
+              "host": ["jsonplaceholder", "typicode", "com"],
+              "path": ["users"]
             },
-            "description": "Test GET endpoint to retrieve all users"
+            "description": "Test GET endpoint to retrieve all users from JSONPlaceholder API"
           },
           "response": []
         }
@@ -93,7 +93,7 @@
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.length > 0) {",
                   "        pm.expect(jsonData[0]).to.have.property('id');",
-                  "        pm.expect(jsonData[0]).to.have.property('user_id');",
+                  "        pm.expect(jsonData[0]).to.have.property('userId');",
                   "        pm.expect(jsonData[0]).to.have.property('title');",
                   "        pm.expect(jsonData[0]).to.have.property('body');",
                   "    }",
@@ -119,12 +119,12 @@
               }
             ],
             "url": {
-              "raw": "https://gorest.co.in/public/v2/posts",
+              "raw": "https://jsonplaceholder.typicode.com/posts",
               "protocol": "https",
-              "host": ["gorest", "co", "in"],
-              "path": ["public", "v2", "posts"]
+              "host": ["jsonplaceholder", "typicode", "com"],
+              "path": ["posts"]
             },
-            "description": "Test GET endpoint to retrieve all posts"
+            "description": "Test GET endpoint to retrieve all posts from JSONPlaceholder API"
           },
           "response": []
         },
@@ -146,9 +146,9 @@
                   "",
                   "pm.test(\"All posts belong to the specified user\", function () {",
                   "    var jsonData = pm.response.json();",
-                  "    var userId = 7373665;",
+                  "    var userId = 1;",
                   "    jsonData.forEach(function(post) {",
-                  "        pm.expect(post.user_id).to.equal(userId);",
+                  "        pm.expect(post.userId).to.equal(userId);",
                   "    });",
                   "});",
                   "",
@@ -156,7 +156,7 @@
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.length > 0) {",
                   "        pm.expect(jsonData[0]).to.have.property('id');",
-                  "        pm.expect(jsonData[0]).to.have.property('user_id');",
+                  "        pm.expect(jsonData[0]).to.have.property('userId');",
                   "        pm.expect(jsonData[0]).to.have.property('title');",
                   "        pm.expect(jsonData[0]).to.have.property('body');",
                   "    }",
@@ -175,12 +175,12 @@
               }
             ],
             "url": {
-              "raw": "https://gorest.co.in/public/v2/users/7373665/posts",
+              "raw": "https://jsonplaceholder.typicode.com/users/1/posts",
               "protocol": "https",
-              "host": ["gorest", "co", "in"],
-              "path": ["public", "v2", "users", "7373665", "posts"]
+              "host": ["jsonplaceholder", "typicode", "com"],
+              "path": ["users", "1", "posts"]
             },
-            "description": "Test GET endpoint to retrieve posts for user ID 7373665"
+            "description": "Test GET endpoint to retrieve posts for user ID 1 from JSONPlaceholder API"
           },
           "response": []
         }
@@ -213,17 +213,16 @@
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.length > 0) {",
                   "        pm.expect(jsonData[0]).to.have.property('id');",
-                  "        pm.expect(jsonData[0]).to.have.property('user_id');",
+                  "        pm.expect(jsonData[0]).to.have.property('userId');",
                   "        pm.expect(jsonData[0]).to.have.property('title');",
-                  "        pm.expect(jsonData[0]).to.have.property('status');",
+                  "        pm.expect(jsonData[0]).to.have.property('completed');",
                   "    }",
                   "});",
                   "",
-                  "pm.test(\"Todo status is valid\", function () {",
+                  "pm.test(\"Todo completed is boolean\", function () {",
                   "    var jsonData = pm.response.json();",
                   "    if (jsonData.length > 0) {",
-                  "        var validStatuses = ['pending', 'completed'];",
-                  "        pm.expect(validStatuses).to.include(jsonData[0].status);",
+                  "        pm.expect(jsonData[0].completed).to.be.a('boolean');",
                   "    }",
                   "});"
                 ],
@@ -240,12 +239,12 @@
               }
             ],
             "url": {
-              "raw": "https://gorest.co.in/public/v2/todos",
+              "raw": "https://jsonplaceholder.typicode.com/todos",
               "protocol": "https",
-              "host": ["gorest", "co", "in"],
-              "path": ["public", "v2", "todos"]
+              "host": ["jsonplaceholder", "typicode", "com"],
+              "path": ["todos"]
             },
-            "description": "Test GET endpoint to retrieve all todos"
+            "description": "Test GET endpoint to retrieve all todos from JSONPlaceholder API"
           },
           "response": []
         }
@@ -255,7 +254,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "https://gorest.co.in/public/v2",
+      "value": "https://jsonplaceholder.typicode.com",
       "type": "string"
     }
   ]

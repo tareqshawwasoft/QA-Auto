@@ -1,0 +1,18 @@
+<testsuites id="" name="" tests="7" failures="0" skipped="0" errors="0" time="24.431690999999997">
+<testsuite name="privilee-map.spec.js" timestamp="2026-01-19T07:18:14.300Z" hostname="chromium" tests="7" failures="0" skipped="0" time="23.605" errors="0">
+<testcase name="Privilee Map Page › Map page loads" classname="privilee-map.spec.js" time="3.271">
+</testcase>
+<testcase name="Privilee Map Page › Join button exists and links to signup" classname="privilee-map.spec.js" time="2.51">
+</testcase>
+<testcase name="Privilee Map Page › Map container exists" classname="privilee-map.spec.js" time="2.381">
+</testcase>
+<testcase name="Privilee Map Page › Venue widgets have text and photos" classname="privilee-map.spec.js" time="3.212">
+</testcase>
+<testcase name="Privilee Map Page › Filters are clickable" classname="privilee-map.spec.js" time="2.949">
+</testcase>
+<testcase name="Privilee Map Page › Quick filters match actual filters" classname="privilee-map.spec.js" time="2.736">
+</testcase>
+<testcase name="Privilee Map Page › Search bar exists and returns results for Zabeel" classname="privilee-map.spec.js" time="6.546">
+</testcase>
+</testsuite>
+</testsuites>
