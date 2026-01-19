@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "QA Engineer Assessment - Privilee Website Automation Tests",
   "scripts": {
-    "test": "npm run test:api && npm run test:web",
+    "test": "npm run test:api:retry && npm run test:web",
     "test:api": "newman run ./collections/collection.json",
+    "test:api:retry": "node retry-api-tests.js",
     "test:web": "playwright test"
   },
   "author": "",

@@ -2,17 +2,33 @@ name: Tests
 
 on:
   push:
+    branches: [ main ]
 
 jobs:
-  Build:
+  test-api:
     runs-on: ubuntu-22.04
-    name: Build application
+    name: Run API tests
     steps:
-      - run: echo build application
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run API tests
+        run: npm run test:api
+      - name: Upload API test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-test-results
+          path: test-results/
 
-  test:
+  test-web:
     runs-on: ubuntu-22.04
-    name: Run tests
+    name: Run Web tests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,25 +40,25 @@ jobs:
         run: npm ci
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-      - name: Run API tests
-        run: npm run test:api
       - name: Run Web tests
         run: npm run test:web
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: test-results/
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results/
 
   deploy:
     runs-on: ubuntu-22.04
     name: Deploy application
+    needs: [test-api, test-web]
+    if: success()
     steps:
-      - run: echo deploy
+      - run: echo "All tests passed - ready for deployment"
