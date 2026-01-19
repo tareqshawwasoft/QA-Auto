@@ -1,47 +1,54 @@
-# QA Engineer Assessment - Privilee Website (Automation Focus)
+# QA Engineer Assessment - Privilee Website Automation
 
-## Overview
-This assessment evaluates your QA engineering skills, with a focus on test automation, using the Privilee website as a case study. You'll be asked to develop automated test scenarios and answer key questions about QA practices and automation.
+Automated tests for Privilee website map page and GoRest API endpoints.
 
-## Instructions
-1. Review the following webpage https://staging-website.privilee.ae/map.
-2. Develop a set of automated test scenarios for the main features visible in the page.
-3. Submit your assessment in another git repository, where the tests can be run and the result artifacts are generated.
+## Test Coverage
 
-## Tasks
+### API Tests (4 endpoints)
+- GET /public/v2/users - User data validation
+- GET /public/v2/posts - Post data validation
+- GET /public/v2/users/7373665/posts - User-specific posts
+- GET /public/v2/todos - Todo data validation
 
-### 1. Automated Test Scenario Development
-Create at least 5 automated test scenarios covering different aspects of the website, including but not limited to:
-- Functionality
-- User Interface
-- Performance
-- Data Accuracy
+### Web Tests (7 scenarios)
+1. Map page loads - URL validation
+2. Join button exists and links to signup - Button functionality
+3. Map container exists - Map component visibility
+4. Venue widgets have text and photos - Widget content validation
+5. Filters are clickable - Filter functionality
+6. Quick filters match actual filters - Data accuracy
+7. Search bar returns results for "Zabeel" - Search functionality
 
-For each scenario, briefly describe:
-- The feature being tested
-- Expected outcome
-- Any setup or teardown procedures necessary for automation
-- Why you think this test is important
+## How to Run Tests
 
-### 2. API
-Giving an API, create automated tests to validate the different endpoints available at https://gorest.co.in/
-- /public/v2/users
-- /public/v2/posts
-- /public/v2/users/7373665/posts
-- /public/v2/todos
-  
-You can use newman to create the collection and update the file located in `./collections`. In case you prefer to use another tools, please update the github workflow.
+```bash
+npm install
+npx playwright install  # Install browser for web tests
+npm test                # Run all tests
+npm run test:api        # API tests only
+npm run test:web        # Web tests only
+```
 
-## Evaluation Criteria
-Your submission will be evaluated based on:
-- Thoroughness and relevance of automated test scenarios
-- Understanding of QA principles and test automation best practices
-- Clarity and conciseness of explanations
-- Ability to identify potential issues and edge cases suitable for automation
-- Creative problem-solving approaches in an automated testing context
-- Knowledge of automation tools and frameworks
+## Test Results
 
-## Submission
-Please submit your completed assessment within 2 days. If you have any questions, contact aas@privilee.ae.
+- **HTML Report**: `playwright-report/index.html`
+- **JSON Results**: `test-results/results.json`
+- **API Output**: Console pass/fail status
 
-Good luck!
+## Project Structure
+
+```
+QA-Auto/
+├── collections/collection.json     # Newman API tests
+├── tests/privilee-map.spec.js      # Playwright web tests
+├── .github/workflows/test.yaml     # CI/CD workflow
+├── playwright.config.js            # Browser configuration
+├── package.json                    # Dependencies and scripts
+└── README.md                       # This file
+```
+
+## Technologies
+
+- **API Testing**: Newman (Postman CLI)
+- **Web Testing**: Playwright
+- **CI/CD**: GitHub Actions
