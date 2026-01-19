@@ -57,57 +57,50 @@ test.describe('Privilee Map Page', () => {
 
   // Search bar functionality test
   test('Search bar exists and returns results for Zabeel', async ({ page }) => {
-    const searchSelectors = [
-      'input[type="search"]',
-      'input[placeholder*="search" i]',
-      'input[placeholder*="location" i]',
-      'input[class*="search"]',
-      '[class*="search"] input',
-      'input[name*="search"]',
-      'input[id*="search"]',
-      '.search-input',
-      '#search-input'
-    ];
+    // Look for search input - try multiple selectors
+    const searchInput = page.locator('input[type="search"], input[placeholder*="search" i], input[placeholder*="find" i], input[placeholder*="location" i]').first();
 
-    let searchInput;
-    let found = false;
+    // Verify search input exists and is functional
+    await expect(searchInput).toBeVisible();
+    await expect(searchInput).toBeEnabled();
 
-    for (const selector of searchSelectors) {
-      searchInput = page.locator(selector).first();
-      if (await searchInput.isVisible().catch(() => false)) {
-        found = true;
-        break;
+    // Clear any existing text and type "Zabeel"
+    await searchInput.clear();
+    await searchInput.fill('Zabeel');
+
+    // Verify the text was entered correctly
+    const inputValue = await searchInput.inputValue();
+    expect(inputValue).toBe('Zabeel');
+
+    // Try to trigger search - either by pressing Enter or clicking search button
+    try {
+      await searchInput.press('Enter');
+    } catch (e) {
+      // If Enter doesn't work, try clicking a search button
+      const searchButton = page.locator('button[type="submit"], button[aria-label*="search"], button[class*="search"]').first();
+      if (await searchButton.isVisible({ timeout: 1000 }).catch(() => false)) {
+        await searchButton.click();
       }
     }
 
-    if (found) {
-      await expect(searchInput).toBeEnabled();
+    // Wait for search results to load
+    await page.waitForTimeout(3000);
 
-      await searchInput.fill('Zabeel');
-      const inputValue = await searchInput.inputValue();
-      expect(inputValue).toBe('Zabeel');
+    // Check if any search results appeared (venues, suggestions, etc.)
+    const results = page.locator('[class*="result"], [class*="suggestion"], [class*="venue"], [class*="card"], [class*="item"]');
+    const resultCount = await results.count();
 
-      const searchButton = page.locator('button[type="submit"], button[aria-label*="search"], button[class*="search"]').first();
-      if (await searchButton.isVisible().catch(() => false)) {
-        await searchButton.click();
-      }
-
-      await page.waitForTimeout(2000);
-
-      const results = page.locator('[class*="result"], [class*="suggestion"], [class*="venue"], [class*="card"], [class*="item"]');
-      const resultCount = await results.count();
-
-      if (resultCount > 0) {
-        const firstResult = results.first();
-        const resultText = await firstResult.textContent();
-        expect(resultText.toLowerCase()).toContain('zabeel');
-      } else {
-        // If no results, at least verify search was attempted
-        expect(inputValue).toBe('Zabeel');
-      }
+    // Test passes if either:
+    // 1. Results are found, or
+    // 2. Search was attempted (text was entered)
+    if (resultCount > 0) {
+      // Verify at least one result contains "zabeel" (case insensitive)
+      const firstResult = results.first();
+      const resultText = await firstResult.textContent();
+      expect(resultText.toLowerCase()).toContain('zabeel');
     } else {
-      // If search bar doesn't exist, that's okay for this test
-      console.log('Search bar not found on this page - skipping search test');
+      // Even without visible results, verify search was attempted
+      expect(inputValue).toBe('Zabeel');
     }
   });
 });
